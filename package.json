@@ -1,0 +1,16 @@
+{
+  "name": "paciente-xr-fuente",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "malla": "node gen-mesh.mjs",
+    "build": "node build.mjs",
+    "test": "node test-sim.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/atkinson-hyperlegible": "5.1.0",
+    "esbuild": "0.24.0",
+    "qrcode-generator": "1.4.4",
+    "three": "0.170.0"
+  }
+}

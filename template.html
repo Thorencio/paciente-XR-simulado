@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Paciente simulado XR</title>
+<style>
+/*FONT*/
+:root{--scrub:#0f3f44;--scrub2:#16565c;--paper:#f1f4ec;--ink:#14292d;--mint:#9fe6d2;--amber:#f2b134;--red:#ff6b5e;--hr:#5be08a;--spo:#56d6f0;--fr:#f0c94b;font-family:'Atkinson Hyperlegible',system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#20383c;color:var(--paper);-webkit-tap-highlight-color:transparent}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+#intro{position:fixed;left:clamp(16px,4vw,56px);top:50%;transform:translateY(-50%) rotate(-.6deg);width:min(420px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;background:var(--paper);color:var(--ink);padding:26px 28px 24px;box-shadow:0 18px 50px #0007;border-top:10px solid var(--amber)}
+#intro h1{font-size:30px;line-height:1.1;margin:0 0 4px}#intro .where{margin:0 0 16px;color:#46605f}
+#intro p{font-size:17px;line-height:1.42;margin:0 0 12px}#intro .call{font-weight:700}
+.go{display:flex;flex-direction:column;gap:8px;margin:18px 0 12px}
+.go button{padding:13px 16px;border:0;background:var(--scrub);color:var(--paper);font-size:18px;font-weight:700;text-align:left;border-radius:3px}
+.go button:hover{background:var(--scrub2)}.go button.alt{background:transparent;color:var(--scrub);box-shadow:inset 0 0 0 2px var(--scrub)}
+#xrnote,#fine{font-size:14px!important;line-height:1.38!important;color:#46605f;margin:0 0 8px!important}
+#qr{display:none;gap:12px;align-items:center;margin:4px 0 10px}#qr svg{width:92px;height:92px;flex:none}#qr span{font-size:14px;line-height:1.35}
+#hud{position:fixed;inset:0;pointer-events:none;display:none}
+#hud>*{pointer-events:auto}
+#vitals{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;display:flex;background:#082a2ee8;border-radius:4px;padding:8px 4px}
+.v{padding:0 13px;min-width:74px}.v b{display:block;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}.v small{font-size:13px;opacity:.85}
+.alarm b{animation:bl .9s steps(2) infinite}@keyframes bl{50%{opacity:.35}}
+#clock{position:absolute;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:24px;font-weight:700;background:#082a2ee8;padding:8px 14px;border-radius:4px;font-variant-numeric:tabular-nums}
+#msg{position:absolute;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:min(500px,calc(100vw - 372px));background:#082a2ee8;padding:13px 16px;border-radius:4px;min-height:74px}
+#say{font-size:20px;font-weight:700;line-height:1.25}#say:empty{display:none}#say:empty+#find{font-size:17px}#find{font-size:16px;line-height:1.35;color:var(--mint);margin-top:4px}
+#cart{position:absolute;top:12px;right:12px;bottom:12px;width:336px;background:var(--scrub);padding:12px 14px;border-radius:4px;overflow:auto;box-shadow:0 8px 30px #0005}
+#cartT{display:none;width:100%;border:0;background:var(--amber);color:var(--ink);font-weight:700;padding:11px;font-size:17px;border-radius:3px}
+#cart h2{font-size:15px;font-weight:700;color:var(--mint);margin:11px 0 6px}#cart h2:first-of-type{margin-top:0}
+.act{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;min-height:44px;padding:8px 11px;margin:0 0 6px;border:0;border-radius:3px;background:var(--paper);color:var(--ink);font-size:16.5px;font-weight:700;text-align:left}
+.act:hover{background:#fff}.act.done{background:var(--mint)}.act.arm{background:var(--amber)}.act em{font-style:normal;font-weight:400;font-size:14px;font-variant-numeric:tabular-nums}
+.tools{display:flex;gap:6px;margin-top:10px}.tools button{flex:1;padding:9px 4px;background:transparent;border:0;box-shadow:inset 0 0 0 1.5px #9fe6d288;border-radius:3px;font-size:15px;color:var(--paper)}
+#arbar{display:none;gap:6px;margin-top:6px}#arbar button{flex:1;padding:9px;border:0;border-radius:3px;background:var(--scrub2);color:var(--paper)}
+#place{position:absolute;left:50%;top:40%;transform:translateX(-50%);background:#082a2ee8;padding:13px 18px;border-radius:4px;font-size:18px;display:none;text-align:center;width:min(320px,86vw);pointer-events:none}
+#deb{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#0a262acc;padding:16px;z-index:5}
+#debIn{background:var(--paper);color:var(--ink);width:min(640px,100%);max-height:100%;overflow:auto;padding:26px 30px;border-top:10px solid var(--amber)}
+#debIn h2{font-size:28px;line-height:1.12;margin:0 0 6px}#debIn>p{margin:0 0 14px;font-size:17px;color:#46605f}
+.row{display:grid;grid-template-columns:28px 1fr;gap:2px 6px;padding:7px 0;border-top:1px solid #14292d22}.row i{font-style:normal;font-weight:700;font-size:19px;grid-row:span 2}.row.ok i{color:#0d7a5f}.row.no i{color:#c0352b}.row b{font-size:17px}.row span{font-size:15.5px;line-height:1.35;color:#31494b}
+#debIn h3{font-size:18px;margin:16px 0 6px}#debIn ul{margin:0 0 16px;padding-left:20px;font-size:16px;line-height:1.4}
+#again{padding:13px 18px;border:0;background:var(--scrub);color:var(--paper);font-size:18px;font-weight:700;border-radius:3px}
+#refs{font-size:13.5px;line-height:1.35;color:#46605f;margin-top:12px!important}
+body.ar,html.ar{background:transparent}body.ar canvas#c{visibility:hidden}
+@media (max-width:760px),(pointer:coarse) and (max-height:520px){
+ #vitals{left:8px;right:8px;justify-content:space-between;padding:6px 2px}.v{padding:0 6px;min-width:0}.v b{font-size:23px}.v small{font-size:12px}
+ #clock{top:calc(72px + env(safe-area-inset-top));left:8px;transform:none;font-size:18px;padding:5px 9px}
+ #msg{left:8px;right:8px;width:auto;bottom:calc(66px + env(safe-area-inset-bottom));min-height:0;padding:9px 12px}#say{font-size:17px}#find{font-size:15px}
+ #cart{top:auto;left:0;right:0;bottom:0;width:auto;max-height:68dvh;border-radius:6px 6px 0 0;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}#cartT{display:block}#cartB{display:none}#cart.open #cartB{display:block;margin-top:10px}
+}
+@media (prefers-reduced-motion:reduce){.alarm b{animation:none}}
+</style></head>
+<body>
+<canvas id="c"></canvas>
+<section id="intro">
+ <h1 id="iw"></h1><p class="where" id="iwh"></p><p id="is"></p><p class="call" id="ic"></p>
+ <div class="go"><button id="goVR" hidden>Entrar en VR</button><button id="goAR" hidden>Ver en AR</button><button id="go2D" class="alt">Atender en esta pantalla</button></div>
+ <p id="xrnote"></p><div id="qr"></div>
+ <p id="fine">Paciente y parámetros ficticios, solo para entrenamiento. No usar para decisiones clínicas reales.</p>
+</section>
+<div id="hud">
+ <div id="vitals"></div><div id="clock">00:00</div>
+ <div id="msg"><div id="say"></div><div id="find"></div></div>
+ <aside id="cart"><button id="cartT">Abrir acciones</button><div id="cartB"><div id="acts"></div>
+  <div class="tools"><button id="pause">Pausar</button><button id="snd">Silenciar</button><button id="restart">Reiniciar</button></div>
+  <div id="arbar"><button id="sReal">Tamaño real</button><button id="sMesa">Sobre mesa</button></div></div></aside>
+ <div id="place">Apunta al piso o a una mesa y toca para colocar al paciente</div>
+</div>
+<div id="deb"><div id="debIn"></div></div>
+<script type="text/plain" id="mesh">/*MESH*/</script>
+<script>/*JS*/</script>
+</body></html>
