@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rodilla: razonamiento clínico</title>
+<style>
+/*FONT*/
+/*BASE*/
+:root{--mintdeep:#0d7a5f}
+#intro{border-top-color:var(--mint)}
+.back{display:inline-block;margin:2px 0 4px;font-size:15px;color:var(--scrub);font-weight:700}
+#steps{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;display:flex;gap:2px;margin:0;padding:6px;list-style:none;background:#082a2ee8;border-radius:4px;counter-reset:st}
+#steps li{counter-increment:st;padding:6px 10px;font-size:15px;color:#f1f4ec99;border-radius:3px;white-space:nowrap}
+#steps li::before{content:counter(st) " ";font-weight:700}
+#steps li.now{background:var(--mint);color:var(--ink);font-weight:700}#steps li.done{color:var(--mint)}
+#prob{position:absolute;top:calc(68px + env(safe-area-inset-top));left:12px;width:300px;background:#082a2ee8;border-radius:4px;padding:11px 14px 9px;display:none}
+#prob h2{font-size:15px;margin:0 0 7px;color:var(--mint);font-weight:700}
+.pr{display:grid;grid-template-columns:78px 1fr 40px;align-items:center;gap:8px;margin-bottom:5px;font-size:14.5px}
+.pr .bar{height:11px;background:#f1f4ec22;border-radius:2px;overflow:hidden}.pr .bar i{display:block;height:100%;background:var(--paper);transition:width .9s ease}
+.pr.mine .bar i{background:var(--amber)}.pr b{text-align:right;font-variant-numeric:tabular-nums}
+.pr span em{font-style:normal;color:var(--amber);font-weight:700}
+#prob p{margin:6px 0 0;font-size:13px;line-height:1.3;color:#f1f4ecb0}
+#stageHead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 4px}
+#stageHead h2{font-size:19px!important;color:var(--paper)!important;margin:0!important}
+#stageHead span{font-size:14px;color:var(--mint);font-variant-numeric:tabular-nums;white-space:nowrap}
+#stageHint{font-size:14.5px;line-height:1.35;color:#f1f4ecc8;margin:0 0 10px}
+.act small{font-weight:700;font-size:13px;padding:2px 7px;border-radius:2px;background:var(--scrub);color:var(--paper)}
+.act.pos small{background:#c0352b}.act.neg small{background:var(--mintdeep)}
+.act:disabled{cursor:default;opacity:.5}.act.done:disabled,.act.pos:disabled,.act.neg:disabled{opacity:1}
+#next{width:100%;margin-top:8px;padding:12px;border:0;border-radius:3px;background:var(--amber);color:var(--ink);font-weight:700;font-size:17px}
+#next:disabled{opacity:.45;cursor:default}
+#msg{min-height:0}#q{font-size:15px;color:var(--mint);margin-bottom:3px}#q:empty{display:none}
+#delta{font-size:15px;color:var(--amber);margin-top:5px;font-variant-numeric:tabular-nums}#delta:empty{display:none}
+.learn li{margin-bottom:6px}
+@media (max-width:760px),(pointer:coarse) and (max-height:520px){
+ #steps{left:8px;right:8px;justify-content:space-between;padding:4px}#steps li{padding:5px 6px;font-size:12.5px}
+ #steps li:not(.now){font-size:0;padding:5px 9px}#steps li:not(.now)::before{font-size:12.5px}
+ #prob{top:calc(52px + env(safe-area-inset-top));left:8px;right:8px;width:auto;padding:7px 10px 4px}
+ #prob h2{display:none}#prob p{display:none}.pr{grid-template-columns:64px 1fr 34px;margin-bottom:2px;font-size:12.5px}.pr .bar{height:8px}
+}
+</style></head>
+<body>
+<canvas id="c"></canvas>
+<section id="intro">
+ <a class="back" href="index.html">Volver a los módulos</a>
+ <h1 id="iw"></h1><p class="where" id="iwh"></p><p id="is"></p><p class="call" id="ic"></p>
+ <div class="go"><button id="goVR" hidden>Entrar en VR</button><button id="goAR" hidden>Ver en AR</button><button id="go2D" class="alt">Atender en esta pantalla</button></div>
+ <p id="xrnote"></p><div id="qr"></div>
+ <p id="fine">Paciente ficticio, solo para entrenamiento. No usar para decisiones clínicas reales.</p>
+</section>
+<div id="hud">
+ <ol id="steps"></ol>
+ <div id="prob"><h2>Probabilidad estimada</h2><div id="bars"></div><p>En amarillo, tus hipótesis.</p></div>
+ <div id="msg"><div id="q"></div><div id="say"></div><div id="find"></div><div id="delta"></div></div>
+ <aside id="cart"><button id="cartT">Abrir panel</button><div id="cartB">
+  <div id="stageHead"><h2></h2><span></span></div><p id="stageHint"></p>
+  <div id="acts"></div><button id="next"></button>
+  <div class="tools"><button id="restart">Reiniciar</button><button id="menu">Módulos</button></div>
+  <div id="arbar"><button id="sReal">Tamaño real</button><button id="sMesa">Sobre mesa</button></div></div></aside>
+ <div id="place">Apunta al piso o a una mesa y toca para colocar al paciente</div>
+</div>
+<div id="deb"><div id="debIn"></div></div>
+<script type="application/json" id="mesh">/*MESH*/</script>
+<script>/*JS*/</script>
+</body></html>

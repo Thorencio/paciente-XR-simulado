@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "malla": "node gen-mesh.mjs",
     "build": "node build.mjs",
-    "test": "node test-sim.mjs"
+    "malla": "node gen-mesh.mjs && node gen-mesh-rodilla.mjs",
+    "test": "node test-sim.mjs && node test-rodilla.mjs"
   },
   "devDependencies": {
     "@fontsource/atkinson-hyperlegible": "5.1.0",
