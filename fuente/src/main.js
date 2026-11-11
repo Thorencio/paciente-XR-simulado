@@ -482,7 +482,7 @@ function overTitle() {
 function finish() {
   phase = 'over'; armed = false; syncSpots(); panelDirty = true; renderHUD(); updateSpeech();
   const d = debrief(s);
-  $('debIn').innerHTML = `<h2></h2><p></p><div id="rows"></div><h3>Lo que sigue</h3><ul></ul><button id="again">Atender de nuevo</button><p id="refs">Basado en la guía de anafilaxia del Resuscitation Council UK (2021) y en la Organización Mundial de Alergia. Adapta a tu protocolo local.</p>`;
+  $('debIn').innerHTML = `<h2></h2><p></p><div id="rows"></div><h3>Lo que sigue</h3><ul></ul><button id="again">Atender de nuevo</button> <a href="index.html" style="display:inline-block;padding:13px 18px;color:var(--scrub);font-weight:700;font-size:18px">Volver a los módulos</a><p id="refs">Basado en la guía de anafilaxia del Resuscitation Council UK (2021) y en la Organización Mundial de Alergia. Adapta a tu protocolo local.</p>`;
   $('debIn').querySelector('h2').textContent = overTitle();
   $('debIn').querySelector('p').textContent = `${fmtClock(s.t)} minutos de atención. ${d.score} de ${d.total} objetivos cumplidos.`;
   for (const it of d.items) { const r = document.createElement('div'); r.className = 'row ' + (it.ok ? 'ok' : 'no'); r.innerHTML = `<i>${it.ok ? '✓' : '✕'}</i><b></b><span></span>`; r.querySelector('b').textContent = it.label; r.querySelector('span').textContent = it.detail; $('rows').appendChild(r); }
@@ -512,13 +512,13 @@ $('go2D').onclick = () => { ensureAudio(); $('intro').style.display = 'none'; $(
   if (vr) { $('goVR').hidden = false; $('goVR').onclick = () => enterXR('immersive-vr'); }
   if (ar) { $('goAR').hidden = false; $('goAR').onclick = () => enterXR('immersive-ar'); }
   let lan = null;
-  if (location.protocol !== 'file:') try { const r = await fetch('lan.json', { cache: 'no-store' }); if (r.ok) lan = await r.json(); } catch (e) {}
+  if (location.protocol !== 'file:') try { const r = await fetch('lan.json', { cache: 'no-store' }); if (r.ok) { lan = await r.json(); if (lan.url) lan.url = new URL(location.pathname.split('/').pop() || '', lan.url).href; } } catch (e) {}
   const hosted = location.protocol === 'https:' && !/^(localhost|127\.|10\.|192\.168\.|172\.)/.test(location.hostname);
   if (!lan && hosted) lan = { url: location.origin + location.pathname, hosted: true };
   if (vr || ar) note.textContent = '';
   else if (lan && lan.hosted) note.textContent = 'Esta pantalla no tiene VR ni AR. Escanea el código con el visor o con un Android para abrir el caso allí.';
   else if (lan && lan.url) note.textContent = 'Esta pantalla no tiene VR ni AR. Abre esta dirección en el visor o en un Android, en la misma red wifi.';
-  else if (location.protocol === 'file:') note.textContent = 'Para usarlo en visor o teléfono, abre PacienteXR.exe: las instrucciones están en LEEME.txt.';
+  else if (location.protocol === 'file:') note.textContent = 'Para usarlo en visor o teléfono, publícalo en internet o abre PacienteXR.exe: las instrucciones están en el README.';
   else note.textContent = /iPhone|iPad/.test(navigator.userAgent) ? 'Safari en iPhone no permite WebXR: aquí funciona solo en pantalla.' : 'Este navegador no ofrece VR ni AR. Prueba Chrome en Android o el navegador de Meta Quest.';
   if (lan && lan.url && !vr && !ar) {
     const q = qrcode(0, 'M'); q.addData(lan.url); q.make();

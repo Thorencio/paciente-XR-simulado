@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Paciente simulado XR</title>
+<style>
+/*FONT*/
+:root{--scrub:#0f3f44;--scrub2:#16565c;--paper:#f1f4ec;--ink:#14292d;--mint:#9fe6d2;--amber:#f2b134;font-family:'Atkinson Hyperlegible',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--scrub);color:var(--paper)}
+body{background:radial-gradient(120% 80% at 85% 0%,#16565c 0,#0f3f44 55%) fixed}
+main{max-width:1040px;margin:0 auto;padding:clamp(28px,6vw,72px) 16px 40px}
+h1{font-size:clamp(36px,6vw,60px);line-height:1.02;margin:0 0 12px;letter-spacing:-.01em}
+.lead{font-size:19px;line-height:1.45;max-width:36em;margin:0 0 36px;color:#dbe7e1}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:start}
+.mod{background:var(--paper);color:var(--ink);box-shadow:0 18px 44px #0006;display:flex;flex-direction:column}
+.mod:nth-child(1){transform:rotate(-.7deg)}.mod:nth-child(2){transform:rotate(.6deg);margin-top:18px}
+.band{padding:9px 24px;font-weight:700;font-size:16px}
+.mod:nth-child(1) .band{background:var(--amber)}.mod:nth-child(2) .band{background:var(--mint)}
+.body{padding:20px 24px 24px;display:flex;flex-direction:column;gap:12px}
+.mod h2{font-size:27px;line-height:1.12;margin:0}
+.mod p{font-size:17px;line-height:1.45;margin:0;color:#2b4346}
+.mod .time{font-size:15px;color:#4c6466}
+.mod a{display:block;margin-top:6px;padding:13px 16px;background:var(--scrub);color:var(--paper);font-weight:700;font-size:18px;text-decoration:none;border-radius:3px}
+.mod a:hover{background:var(--scrub2)}.mod a:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+footer{margin-top:44px;font-size:15px;line-height:1.5;color:#c3d6cf;max-width:44em}
+footer p{margin:0 0 8px}
+@media (prefers-reduced-motion:reduce){.mod{transform:none!important}}
+@media (max-width:640px){.mod{transform:none!important;margin-top:0!important}}
+</style></head>
+<body><main>
+<h1>Paciente simulado</h1>
+<p class="lead">Casos clínicos en 3D para entrenar en el computador, en un visor de realidad virtual o con realidad aumentada en el teléfono.</p>
+<div class="mods">
+ <article class="mod"><div class="band">Urgencias</div><div class="body">
+  <h2>Anafilaxia en sala de observación</h2>
+  <p>Un paciente reacciona a la ceftriaxona y empeora en tiempo real. Prioriza vía aérea, respiración y circulación antes de que llegue al paro.</p>
+  <p class="time">Unos 10 minutos. Termina con una pauta de 10 objetivos.</p>
+  <a href="urgencias.html">Abrir el caso de urgencias</a></div></article>
+ <article class="mod"><div class="band">Musculoesquelético</div><div class="body">
+  <h2>Rodilla que falla al girar</h2>
+  <p>Un futbolista amateur con una lesión de rodilla de 5 días. Pregunta, plantea hipótesis, elige pruebas que cambian la probabilidad y decide la conducta.</p>
+  <p class="time">Unos 15 minutos. Razonamiento clínico paso a paso.</p>
+  <a href="rodilla.html">Abrir el caso de rodilla</a></div></article>
+</div>
+<footer>
+ <p>Para VR usa el navegador de Meta Quest. Para AR, Chrome en Android. En iPhone funciona en modo pantalla.</p>
+ <p>Pacientes ficticios, solo para entrenamiento. No usar para decisiones clínicas reales.</p>
+</footer>
+</main></body></html>

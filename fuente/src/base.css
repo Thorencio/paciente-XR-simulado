@@ -1,8 +1,4 @@
-<!doctype html>
-<html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Paciente simulado XR</title>
-<style>
+
 /*FONT*/
 :root{--scrub:#0f3f44;--scrub2:#16565c;--paper:#f1f4ec;--ink:#14292d;--mint:#9fe6d2;--amber:#f2b134;--red:#ff6b5e;--hr:#5be08a;--spo:#56d6f0;--fr:#f0c94b;font-family:'Atkinson Hyperlegible',system-ui,sans-serif}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#20383c;color:var(--paper);-webkit-tap-highlight-color:transparent}
@@ -47,24 +43,3 @@ body.ar,html.ar{background:transparent}body.ar canvas#c{visibility:hidden}
  #cart{top:auto;left:0;right:0;bottom:0;width:auto;max-height:68dvh;border-radius:6px 6px 0 0;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}#cartT{display:block}#cartB{display:none}#cart.open #cartB{display:block;margin-top:10px}
 }
 @media (prefers-reduced-motion:reduce){.alarm b{animation:none}}
-</style></head>
-<body>
-<canvas id="c"></canvas>
-<section id="intro">
- <h1 id="iw"></h1><p class="where" id="iwh"></p><p id="is"></p><p class="call" id="ic"></p>
- <div class="go"><button id="goVR" hidden>Entrar en VR</button><button id="goAR" hidden>Ver en AR</button><button id="go2D" class="alt">Atender en esta pantalla</button></div>
- <p id="xrnote"></p><div id="qr"></div>
- <p id="fine">Paciente y parámetros ficticios, solo para entrenamiento. No usar para decisiones clínicas reales.</p>
-</section>
-<div id="hud">
- <div id="vitals"></div><div id="clock">00:00</div>
- <div id="msg"><div id="say"></div><div id="find"></div></div>
- <aside id="cart"><button id="cartT">Abrir acciones</button><div id="cartB"><div id="acts"></div>
-  <div class="tools"><button id="pause">Pausar</button><button id="snd">Silenciar</button><button id="restart">Reiniciar</button></div>
-  <div id="arbar"><button id="sReal">Tamaño real</button><button id="sMesa">Sobre mesa</button></div></div></aside>
- <div id="place">Apunta al piso o a una mesa y toca para colocar al paciente</div>
-</div>
-<div id="deb"><div id="debIn"></div></div>
-<script type="text/plain" id="mesh">/*MESH*/</script>
-<script>/*JS*/</script>
-</body></html>
